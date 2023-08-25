@@ -32,7 +32,7 @@ const ffmpeg = require('fluent-ffmpeg');
 const app = express();
 const formatVideo = 'mp4';
 const formatAudio = 'mp3';
-const destinationPath = 'D:/Youtube-downloader/Videos';
+const destinationPath = path.join(__dirname, '..', 'Videos');
 const extensionID = 'bpmlhgfegmekfekenjmjipebcmckcpol';
 
 app.use(express.json());
