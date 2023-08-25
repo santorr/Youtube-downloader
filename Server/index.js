@@ -28,10 +28,18 @@ const fs = require('fs').promises;
 const { exec } = require('child_process');
 const ffmpeg = require('fluent-ffmpeg');
 
+// Define video and audio quality settings
+const videoQualities = { 'lowest': 'lowest', 'lowestvideo': 'lowestvideo', 'highest': 'highest', 'highestvideo': 'highestvideo' };
+const audioQualities = { 'lowest': 'lowest', 'lowestaudio': 'lowestaudio', 'highest': 'highest', 'highestaudio': 'highestaudio' }
+const videoFormats = { 'mp4': 'mp4', 'wmv': 'wmv', 'flv': 'flv', 'avi': 'avi' }
+const audioFormats = { 'mp3': 'mp3', 'mpg': 'mpg' }
+
 // Configuration
 const app = express();
-const formatVideo = 'mp4';
-const formatAudio = 'mp3';
+const formatVideo = videoFormats.mp4;
+const formatAudio = audioFormats.mp3;
+const audioQuality = audioQualities.highestaudio;
+const videoQuality = videoQualities.lowest;
 const destinationPath = path.join(__dirname, '..', 'Videos');
 const extensionID = 'bpmlhgfegmekfekenjmjipebcmckcpol';
 
@@ -71,8 +79,8 @@ async function downloadMedia(info, formatVideo, formatAudio) {
     const tempVideoFile = path.join(destinationPath, `${info.clean_video_title}_video.${formatVideo}`);
     const tempAudioFile = path.join(destinationPath, `${info.clean_video_title}_audio.${formatAudio}`);
 
-    const videoStream = ytdl(info.url, { quality: 'highestvideo' });
-    const audioStream = ytdl(info.url, { quality: 'highestaudio' });
+    const videoStream = ytdl(info.url, { quality: videoQuality });
+    const audioStream = ytdl(info.url, { quality: audioQuality });
 
     await Promise.all([
         fs.writeFile(tempVideoFile, await videoStream),
@@ -90,7 +98,7 @@ async function downloadMedia(info, formatVideo, formatAudio) {
  * @returns {string} - Path to the merged media file.
  */
 async function mergeMedia(info, tempVideoFile, tempAudioFile) {
-    const mergedFile = path.join(destinationPath, info.category, `${info.clean_video_title}.mp4`);
+    const mergedFile = path.join(destinationPath, info.category, `${info.clean_video_title}.${formatVideo}`);
 
     const outputDirectory = path.dirname(mergedFile);
     try {
