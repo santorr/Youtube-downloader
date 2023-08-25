@@ -32,13 +32,14 @@ const ffmpeg = require('fluent-ffmpeg');
 const app = express();
 const formatVideo = 'mp4';
 const formatAudio = 'mp3';
-const destinationPath = 'D:/Youtube/Videos';
+const destinationPath = 'D:/Youtube-downloader/Videos';
+const extensionID = 'bpmlhgfegmekfekenjmjipebcmckcpol';
 
 app.use(express.json());
 
 // Configure CORS headers
 app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', 'chrome-extension://fpoibpjndbdedjjpgaiieahnpelhpjkn');
+    res.header('Access-Control-Allow-Origin', `chrome-extension://${extensionID}`);
     res.header('Access-Control-Allow-Methods', 'POST');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     next();
