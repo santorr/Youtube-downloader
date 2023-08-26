@@ -3,13 +3,15 @@ chrome.runtime.onInstalled.addListener(() => {
     chrome.contextMenus.create({
         id: "downloadThumbnail",
         title: "Download from thumbnail",
-        contexts: ["image"]
+        contexts: ["image"],
+        documentUrlPatterns: ["https://www.youtube.com/*"]
     });
     
     chrome.contextMenus.create({
         id: "downloadVideo",
         title: "Download from video",
-        contexts: ["video"]
+        contexts: ["video"],
+        documentUrlPatterns: ["https://www.youtube.com/*"]
     });
 });
 
